@@ -25,11 +25,14 @@ namespace StoreQADemoTesting.Pages.Tests
         private ResultPage resultPage;
         private UserFactory factory;
         private User user;
+        private CurrentOrderSingle _single;
 
         [SetUp()]
         public void SetUpStore()
         {
-            _bar = new MainMenuBarPage(_driver);
+            //_bar = new MainMenuBarPage(_driver);
+            _single = CurrentOrderSingle.Instance;
+            
         }
 
         [Test()]
@@ -39,34 +42,41 @@ namespace StoreQADemoTesting.Pages.Tests
             {
                 AddRandomProduct();
             }
-            _bar.openCheckout();
+            
             OrderListCheck();
             AddUser();
             ResultCheck();
         }
 
+        private void OpenCheckoutOnMenuBar()
+        {
+             MainMenuBarPage bar = new MainMenuBarPage(_driver);
+            bar.OpenCheckout();
+        }
+
         private void AddRandomProduct()
         {
-            _bar.HoverProductCategory();
+            MainMenuBarPage bar = new MainMenuBarPage(_driver);
+            bar.HoverProductCategory();
             prodCatPage = new ProductCategoryBarPage(_driver);
             prodCatPage.SelectRandom();
-            prodListPage = new ProductsListPage(_driver, _bar);
+            prodListPage = new ProductsListPage(_driver, _single);
             prodListPage.VerifyRandomCategoryChoose(prodCatPage.choosenElementText).randomProductChose();
-            prodPage = new ProductPage(_driver, _bar);
+            prodPage = new ProductPage(_driver, _single);
             prodPage.VerifyGoodProdLoaded(prodListPage.ChosenItemName).AddRandomCountOfProductToCart().VerifyAmount();
-            _bar.openHome();
+            bar.OpenHome();
         }
 
         private void OrderListCheck()
         {
-            checkoutPage = new CheckoutPage(_driver, _bar);
+            checkoutPage = new CheckoutPage(_driver, _single);
             checkoutPage.readValues().compareOrders().ContinueClick();
         }
 
         private void AddUser()
         {
             factory = new UserFactory();
-            userPage = new UserPage(_driver, _bar);
+            userPage = new UserPage(_driver, _single);
             user = factory.CreateRandomUser(userPage.GetAviableCountries());
             userPage.SetUser(user).SelectShippingSame().SetAll().Calculate().Purchase().GetShippingPrice();
         }

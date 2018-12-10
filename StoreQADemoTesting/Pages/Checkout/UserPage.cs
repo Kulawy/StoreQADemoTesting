@@ -19,9 +19,11 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         private User u;
 
-        public UserPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        //public UserPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        public UserPage(IWebDriver driver) : base(driver)
         {
-            _bar = mainMenuBar;
+            //_bar = mainMenuBar;
+            //_single = CurrentOrderSingle.Instance;
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementSameBilling, ElementFirstName, ElementLastName, ElementAddress };
             WaitForElements(elementsList);
@@ -134,12 +136,12 @@ namespace StoreQADemoTesting.Pages.Checkout
             if (_driver.Url == "http://store.demoqa.com/products-page/checkout/")
             {
                 WaitForElement(ElementShippingPrice);
-                _bar.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal(ElementShippingPrice.Text));
+                _single.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal(ElementShippingPrice.Text));
                 ClickElement(ElementPurchase);
             }
             else
             {
-                _bar.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal("0"));
+                _single.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal("0"));
             }
             return this;
         }

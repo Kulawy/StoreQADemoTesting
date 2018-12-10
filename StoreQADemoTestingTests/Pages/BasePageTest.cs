@@ -8,17 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
+using StoreQADemoTesting.Model;
 
 namespace StoreQADemoTesting.Pages.Tests
 {
 
     [TestFixture()]
-    public class BasePageTest
+    public abstract class BasePageTest
     {
 
         protected WebDriverFactory _webDriverFactory;
         protected IWebDriver _driver;
-        protected MainMenuBarPage _bar;
+        //protected MainMenuBarPage _bar;
+        //protected CurrentOrderSingle _single;
         protected Random _rand;
 
         [SetUp()]

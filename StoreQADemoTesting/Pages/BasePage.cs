@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using StoreQADemoTesting.Model;
 using StoreQADemoTesting.Utilities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace StoreQADemoTesting.Pages
         protected IWebDriver _driver;
         protected MainMenuBarPage _bar;
         protected Actions _actionsBuilder;
+        protected CurrentOrderSingle _single;
         protected Random rnd;
         protected MyConverter converter;
         private WebDriverWait wait;
@@ -26,6 +28,7 @@ namespace StoreQADemoTesting.Pages
         {
             _driver = driver;
             wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
+            _single = CurrentOrderSingle.Instance;
         }
 
         // to nie jest nigdzie używane :D jest w zapasie :D taki As z rękawa jak już waity nie podziałają

@@ -12,7 +12,7 @@ namespace StoreQADemoTesting.Pages
 {
     public class MainMenuBarPage : WebElementManipulator
     {
-        public Order CurrentOrder { get; set; }
+        //public Order CurrentOrder { get; set; }
 
         public MainMenuBarPage(IWebDriver driver) : base(driver)
         {
@@ -20,8 +20,10 @@ namespace StoreQADemoTesting.Pages
             _actionsBuilder = new Actions(_driver);
             List<IWebElement> elements = new List<IWebElement>() { elementAllProd, elementCheckout, elementHome, elementNoTitle, elementProdCat };
             WaitForElements(elements);
-            CurrentOrder = new Order();
+            //CurrentOrder = new Order();
         }
+
+        //StaleElementReferenceException 
 
         [FindsBy(How = How.Id, Using = "menu-item-15")]
         private IWebElement elementHome { get; set; }
@@ -45,7 +47,7 @@ namespace StoreQADemoTesting.Pages
             return this;
         }
 
-        public MainMenuBarPage openHome()
+        public MainMenuBarPage OpenHome()
         {
             ClickElement(elementHome);
             return this;
@@ -57,31 +59,31 @@ namespace StoreQADemoTesting.Pages
             return this;
         }
 
-        public MainMenuBarPage openNoTitle()
+        public MainMenuBarPage OpenNoTitle()
         {
             ClickElement(elementNoTitle);
             return this;
         }
 
-        public MainMenuBarPage openAllProduct()
+        public MainMenuBarPage OpenAllProduct()
         {
             ClickElement(elementAllProd);
             return this;
         }
 
-        public MainMenuBarPage openCheckout()
+        public MainMenuBarPage OpenCheckout()
         {
             ClickElement(elementCheckout);
             return this;
         }
 
 
-        public IWebElement getElementCount()
+        public IWebElement GetElementCount()
         {
             return elementCount;
         }
 
-        public int getCount()
+        public int GetCount()
         {
             String value = elementCount.Text.Replace(" ", "");
             //System.out.println(this.getClass().getName() + " count value: "+ value);

@@ -16,30 +16,33 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
     {
         private List<IWebElement> elementsList;
 
-        public ProductPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        //public ProductPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        public ProductPage(IWebDriver driver, CurrentOrderSingle singleTone) : base(driver)
         {
-            _bar = mainMenuBar;
-            #pragma warning disable CS0618 // Type or member is obsolete
+            //_bar = mainMenuBar;
+            _bar = new MainMenuBarPage(_driver);
+            _singleTone = singleTone;
+            //#pragma warning disable CS0618 // Type or member is obsolete
             PageFactory.InitElements(_driver, this);
-            #pragma warning restore CS0618 // Type or member is obsolete
-            elementsList = new List<IWebElement> { elementTitle, elementAddToCart };
+            //#pragma warning restore CS0618 // Type or member is obsolete
+            elementsList = new List<IWebElement> { ElementTitle, ElementAddToCart };
             WaitForElements(elementsList);
             rnd = new Random();
             converter = new MyConverter();
         }
 
         [FindsBy(How = How.ClassName, Using = "prodtitle")]
-        private IWebElement elementTitle { get; set; }
+        private IWebElement ElementTitle { get; set; }
         [FindsBy(How = How.CssSelector, Using = "input[value='Add To Cart']")]
-        private IWebElement elementAddToCart { get; set; }
+        private IWebElement ElementAddToCart { get; set; }
         [FindsBy(How = How.CssSelector, Using = "div[class='alert addtocart']")]
-        private IWebElement elementAlertAdd { get; set; }
+        private IWebElement ElementAlertAdd { get; set; }
         [FindsBy(How = How.ClassName, Using = "currentprice")]
-        private IWebElement elementCurrentPrice { get; set; }
+        private IWebElement ElementCurrentPrice { get; set; }
 
         public ProductPage VerifyGoodProdLoaded(String chosenValue)
         {
-            Assert.AreEqual(ParseStringToComparableValue(chosenValue), ParseStringToComparableValue(elementTitle.Text));
+            Assert.AreEqual(ParseStringToComparableValue(chosenValue), ParseStringToComparableValue(ElementTitle.Text));
             return this;
         }
 
@@ -63,19 +66,20 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
 
         public ProductPage VerifyAmount()
         {
-            Assert.AreEqual(_bar.CurrentOrder.GetAmount(), _bar.getCount());
+            //Assert.AreEqual(_bar.CurrentOrder.GetAmount(), _bar.GetCount());
+            Assert.AreEqual(_singleTone.CurrentOrder.GetAmount(), _bar.GetCount());
             return this;
         }
 
         private void AddToCart()
         {
-            ClickElement(elementAddToCart);
-            WaitForElement(elementAlertAdd);
-            Log(GetType().Name, "(BEFORE) count on screen:   ", _bar.getCount().ToString());
-            Log(GetType().Name, "(BEFORE) totalCountOfProd:  ", _bar.CurrentOrder.GetAmount().ToString());
-            WaitForCountToChange(_bar.getElementCount(), _bar.CurrentOrder.GetAmount().ToString());
-            Log(GetType().Name, "(AFTER)  count on screen:   ", _bar.getCount().ToString());
-            Log(GetType().Name, "(AFTER)  totalCountOfProd:  ", _bar.CurrentOrder.GetAmount().ToString());
+            ClickElement(ElementAddToCart);
+            WaitForElement(ElementAlertAdd);
+            Log(GetType().Name, "(BEFORE) count on screen:   ", _bar.GetCount().ToString());
+            Log(GetType().Name, "(BEFORE) totalCountOfProd:  ", _singleTone.CurrentOrder.GetAmount().ToString());
+            WaitForCountToChange(_bar.GetElementCount(), _singleTone.CurrentOrder.GetAmount().ToString());
+            Log(GetType().Name, "(AFTER)  count on screen:   ", _bar.GetCount().ToString());
+            Log(GetType().Name, "(AFTER)  totalCountOfProd:  ", _singleTone.CurrentOrder.GetAmount().ToString());
         }
 
         private String ParseStringToComparableValue(String inputString)
@@ -87,9 +91,9 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
 
         private void AddProduct()
         {
-            Console.WriteLine(elementCurrentPrice.Text.Substring(1).Replace(",", ""));
-            Product newProd = new Product(elementTitle.Text, new BigDecimal(double.Parse(elementCurrentPrice.Text.Substring(1).Replace(",", ""), System.Globalization.CultureInfo.InvariantCulture)));
-            _bar.CurrentOrder.AddProduct(newProd);
+            Console.WriteLine(ElementCurrentPrice.Text.Substring(1).Replace(",", ""));
+            Product newProd = new Product(ElementTitle.Text, new BigDecimal(double.Parse(ElementCurrentPrice.Text.Substring(1).Replace(",", ""), System.Globalization.CultureInfo.InvariantCulture)));
+            _singleTone.CurrentOrder.AddProduct(newProd);
             Log(GetType().Name, "Product add: ", newProd.ToString());
         }
     }
