@@ -15,9 +15,11 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         public String ChosenItemName { get; set; }
         private List<IWebElement> elementsPorductsList;
 
-        public ProductsListPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        //public ProductsListPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        public ProductsListPage(IWebDriver driver) : base(driver)
         {
-            _bar = mainMenuBar;
+            //_bar = mainMenuBar;
+            //_bar = new MainMenuBarPage(_driver);
             PageFactory.InitElements(_driver, this);
             WaitForElement(ElementTitle);
             elementsPorductsList = new List<IWebElement>(ElementsPorductsList);
@@ -32,10 +34,10 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         [FindsBy(How = How.ClassName, Using = "wpsc_product_title")]
         private IList<IWebElement> ElementsPorductsList { get; set; }
 
-        public ProductsListPage randomProductChose()
+        public ProductsListPage RandomProductChose()
         {
             int listSize = elementsPorductsList.Count;
-            Console.WriteLine(GetType().Name + " productList size: " + listSize);  //tu jest CW
+            Console.WriteLine(GetType().Name + " productList size: " + listSize);  //<--------- CW
             IWebElement productItem = elementsPorductsList[rnd.Next(listSize)];
             ChosenItemName = productItem.Text;
             ClickElement(productItem);

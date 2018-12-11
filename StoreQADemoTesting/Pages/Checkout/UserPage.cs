@@ -136,12 +136,12 @@ namespace StoreQADemoTesting.Pages.Checkout
             if (_driver.Url == "http://store.demoqa.com/products-page/checkout/")
             {
                 WaitForElement(ElementShippingPrice);
-                _single.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal(ElementShippingPrice.Text));
+                _single.CurrentOrder.SetShippingPirce(converter.FormPriceToBigDecimal(ElementShippingPrice.Text));
                 ClickElement(ElementPurchase);
             }
             else
             {
-                _single.CurrentOrder.SetShippingPirce(converter.formPriceToBigDecimal("0"));
+                _single.CurrentOrder.SetShippingPirce(converter.FormPriceToBigDecimal("0"));
             }
             return this;
         }

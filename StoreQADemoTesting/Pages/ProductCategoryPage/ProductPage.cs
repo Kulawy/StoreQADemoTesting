@@ -17,11 +17,11 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         private List<IWebElement> elementsList;
 
         //public ProductPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
-        public ProductPage(IWebDriver driver, CurrentOrderSingle singleTone) : base(driver)
+        public ProductPage(IWebDriver driver) : base(driver)
         {
             //_bar = mainMenuBar;
             _bar = new MainMenuBarPage(_driver);
-            _singleTone = singleTone;
+            _single = CurrentOrderSingle.Instance;
             //#pragma warning disable CS0618 // Type or member is obsolete
             PageFactory.InitElements(_driver, this);
             //#pragma warning restore CS0618 // Type or member is obsolete
@@ -67,7 +67,7 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         public ProductPage VerifyAmount()
         {
             //Assert.AreEqual(_bar.CurrentOrder.GetAmount(), _bar.GetCount());
-            Assert.AreEqual(_singleTone.CurrentOrder.GetAmount(), _bar.GetCount());
+            Assert.AreEqual(_single.CurrentOrder.GetAmount(), _bar.GetCount());
             return this;
         }
 
@@ -76,15 +76,15 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
             ClickElement(ElementAddToCart);
             WaitForElement(ElementAlertAdd);
             Log(GetType().Name, "(BEFORE) count on screen:   ", _bar.GetCount().ToString());
-            Log(GetType().Name, "(BEFORE) totalCountOfProd:  ", _singleTone.CurrentOrder.GetAmount().ToString());
-            WaitForCountToChange(_bar.GetElementCount(), _singleTone.CurrentOrder.GetAmount().ToString());
+            Log(GetType().Name, "(BEFORE) totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
+            WaitForCountToChange(_bar.GetElementCount(), _single.CurrentOrder.GetAmount().ToString());
             Log(GetType().Name, "(AFTER)  count on screen:   ", _bar.GetCount().ToString());
-            Log(GetType().Name, "(AFTER)  totalCountOfProd:  ", _singleTone.CurrentOrder.GetAmount().ToString());
+            Log(GetType().Name, "(AFTER)  totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
         }
 
         private String ParseStringToComparableValue(String inputString)
         {
-            string outString = converter.parseStringToComparableValue(inputString);
+            string outString = converter.ParseStringToComparableValue(inputString);
             Log(GetType().Name, " Porduct Name", outString);
             return outString;
         }
@@ -93,7 +93,7 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         {
             Console.WriteLine(ElementCurrentPrice.Text.Substring(1).Replace(",", ""));
             Product newProd = new Product(ElementTitle.Text, new BigDecimal(double.Parse(ElementCurrentPrice.Text.Substring(1).Replace(",", ""), System.Globalization.CultureInfo.InvariantCulture)));
-            _singleTone.CurrentOrder.AddProduct(newProd);
+            _single.CurrentOrder.AddProduct(newProd);
             Log(GetType().Name, "Product add: ", newProd.ToString());
         }
     }

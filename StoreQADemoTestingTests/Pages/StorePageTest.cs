@@ -42,7 +42,7 @@ namespace StoreQADemoTesting.Pages.Tests
             {
                 AddRandomProduct();
             }
-            
+            OpenCheckoutOnMenuBar();
             OrderListCheck();
             AddUser();
             ResultCheck();
@@ -50,7 +50,7 @@ namespace StoreQADemoTesting.Pages.Tests
 
         private void OpenCheckoutOnMenuBar()
         {
-             MainMenuBarPage bar = new MainMenuBarPage(_driver);
+            MainMenuBarPage bar = new MainMenuBarPage(_driver);
             bar.OpenCheckout();
         }
 
@@ -60,31 +60,31 @@ namespace StoreQADemoTesting.Pages.Tests
             bar.HoverProductCategory();
             prodCatPage = new ProductCategoryBarPage(_driver);
             prodCatPage.SelectRandom();
-            prodListPage = new ProductsListPage(_driver, _single);
-            prodListPage.VerifyRandomCategoryChoose(prodCatPage.choosenElementText).randomProductChose();
-            prodPage = new ProductPage(_driver, _single);
+            prodListPage = new ProductsListPage(_driver);
+            prodListPage.VerifyRandomCategoryChoose(prodCatPage.choosenElementText).RandomProductChose();
+            prodPage = new ProductPage(_driver);
             prodPage.VerifyGoodProdLoaded(prodListPage.ChosenItemName).AddRandomCountOfProductToCart().VerifyAmount();
             bar.OpenHome();
         }
 
         private void OrderListCheck()
         {
-            checkoutPage = new CheckoutPage(_driver, _single);
-            checkoutPage.readValues().compareOrders().ContinueClick();
+            checkoutPage = new CheckoutPage(_driver);
+            checkoutPage.ReadValues().CompareOrders().ContinueClick();
         }
 
         private void AddUser()
         {
             factory = new UserFactory();
-            userPage = new UserPage(_driver, _single);
+            userPage = new UserPage(_driver);
             user = factory.CreateRandomUser(userPage.GetAviableCountries());
             userPage.SetUser(user).SelectShippingSame().SetAll().Calculate().Purchase().GetShippingPrice();
         }
 
         private void ResultCheck()
         {
-            resultPage = new ResultPage(_driver, _bar);
-            resultPage.VerifyOrder().verifyShipment().VerifyTotalOrderWithShipment();
+            resultPage = new ResultPage(_driver);
+            resultPage.VerifyOrder().VerifyShipment().VerifyTotalOrderWithShipment();
         }
 
     }

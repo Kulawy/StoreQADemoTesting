@@ -16,10 +16,10 @@ namespace StoreQADemoTesting.Pages.Checkout
     {
 
         //public ResultPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
-        public ResultPage(IWebDriver driver, CurrentOrderSingle singleTone) : base(driver)
+        public ResultPage(IWebDriver driver) : base(driver)
         {
             _bar = new MainMenuBarPage(_driver);
-            //_single = singleTone;
+            _single = CurrentOrderSingle.Instance;
             PageFactory.InitElements(_driver, this);
             List<IWebElement> elementListOfProducts_asList = new List<IWebElement>(ElementListofProducts);
             WaitForElements(elementListOfProducts_asList);
@@ -37,14 +37,16 @@ namespace StoreQADemoTesting.Pages.Checkout
             for (int i = 0; i < ElementListofProducts.Count; i++)
             {
                 String expectedName = _single.CurrentOrder.GetProd(i).GetName();
-                BigDecimal expectedPrice = new BigDecimal(_single.CurrentOrder.GetProd(i).GetPrice(), 2);
+                BigDecimal expectedPrice = _single.CurrentOrder.GetProd(i).GetPrice();
+                //BigDecimal expectedPrice2 = converter.FormPriceToBigDecimal(_single.CurrentOrder.GetProd(i).GetPrice()); ;
                 //expectedPrice = expectedPrice.SetScale(2, RoundingMode.HalfUp);
-                BigDecimal expectedTotalPrice = new BigDecimal(_single.CurrentOrder.GetProd(i).GetTotalProductPrice(), 2);
+                BigDecimal expectedTotalPrice = _single.CurrentOrder.GetProd(i).GetTotalProductPrice();
+                //BigDecimal expectedTotalPrice = new BigDecimal(_single.CurrentOrder.GetProd(i).GetTotalProductPrice(), 2);
                 //expectedTotalPrice = expectedTotalPrice.SetScale(2, RoundingMode.HalfUp);
 
                 int expectedAmount = _single.CurrentOrder.GetProd(i).GetQuantity();
 
-                Assert.AreEqual(converter.parseStringToComparableValue(expectedName), GetName(i));
+                Assert.AreEqual(converter.ParseStringToComparableValue(expectedName), GetName(i));
                 Assert.AreEqual(expectedPrice, GetPrice(i));
                 Assert.AreEqual(expectedTotalPrice, GetTotalPrice(i));
                 Assert.AreEqual(expectedAmount, GetAmount(i));
@@ -58,7 +60,7 @@ namespace StoreQADemoTesting.Pages.Checkout
             return this;
         }
 
-        public ResultPage verifyShipment()
+        public ResultPage VerifyShipment()
         {
             Assert.IsTrue(ElementTotals.Text.Replace(",", "").Contains(_single.CurrentOrder.GetShippingPrice().ToString()));
             return this;
@@ -66,17 +68,17 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         private String GetName(int i)
         {
-            return converter.parseStringToComparableValue(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(1)")).Text);
+            return converter.ParseStringToComparableValue(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(1)")).Text);
         }
 
         private BigDecimal GetPrice(int i)
         {
-            return converter.formPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(2)")).Text);
+            return converter.FormPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(2)")).Text);
         }
 
         private BigDecimal GetTotalPrice(int i)
         {
-            return converter.formPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(4)")).Text);
+            return converter.FormPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(4)")).Text);
         }
 
         private int GetAmount(int i)

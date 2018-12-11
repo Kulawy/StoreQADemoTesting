@@ -16,9 +16,11 @@ namespace StoreQADemoTesting.Pages.Checkout
         private List<IWebElement> elementsList;
         protected List<RowItem> rowValuesList;
 
-        public CheckoutPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        //public CheckoutPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
+        public CheckoutPage(IWebDriver driver) : base(driver)
         {
-            _bar = mainMenuBar;
+            _bar = new MainMenuBarPage(driver);
+            _single = CurrentOrderSingle.Instance;
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementContinue };
             WaitForElements(elementsList);
@@ -35,7 +37,7 @@ namespace StoreQADemoTesting.Pages.Checkout
         private IList<IWebElement> ElementsRowList { get; set; }
 
 
-        public CheckoutPage readValues()
+        public CheckoutPage ReadValues()
         {
             rowValuesList = new List<RowItem>();
             foreach (IWebElement row in ElementsRowList)
@@ -49,24 +51,24 @@ namespace StoreQADemoTesting.Pages.Checkout
             return this;
         }
 
-        public CheckoutPage compareOrders()
+        public CheckoutPage CompareOrders()
         {
             bool isEquals = true;
             int index = 0;
-            if (_bar.CurrentOrder.Size() == rowValuesList.Count)
+            if (_single.CurrentOrder.Size() == rowValuesList.Count)
             {
-                for (int i = 0; i < _bar.CurrentOrder.Size(); i++)
+                for (int i = 0; i < _single.CurrentOrder.Size(); i++)
                 {
                     if (isEquals)
                     {
-                        isEquals = _bar.CurrentOrder.GetProd(i).GetName().Equals(rowValuesList[i].Name)
-                        && _bar.CurrentOrder.GetProd(i).GetPrice().Equals(rowValuesList[i].Price)
-                        && _bar.CurrentOrder.GetProd(i).GetTotalProductPrice().Equals(rowValuesList[i].PriceTotal);
+                        isEquals = _single.CurrentOrder.GetProd(i).GetName().Equals(rowValuesList[i].Name)
+                        && _single.CurrentOrder.GetProd(i).GetPrice().Equals(rowValuesList[i].Price)
+                        && _single.CurrentOrder.GetProd(i).GetTotalProductPrice().Equals(rowValuesList[i].PriceTotal);
                         //index = i;
                     }
                     else
                     {
-                        Log(GetType().Name, "elementy są rowne ", _bar.CurrentOrder.GetProd(index).GetName() + " równe " + rowValuesList[index].Name);
+                        Log(GetType().Name, "elementy są rowne ", _single.CurrentOrder.GetProd(index).GetName() + " równe " + rowValuesList[index].Name);
                     }
                 }
             }
