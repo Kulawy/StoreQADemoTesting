@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using StoreQADemoTesting.Model;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,13 +69,13 @@ namespace StoreQADemoTesting.Pages.Checkout
                     }
                     else
                     {
-                        Log(GetType().Name, "elementy są rowne ", _single.CurrentOrder.GetProd(index).GetName() + " równe " + rowValuesList[index].Name);
+                        GetType().Name.Log( "elementy są rowne ", _single.CurrentOrder.GetProd(index).GetName() + " równe " + rowValuesList[index].Name);
                     }
                 }
             }
             else
             {
-                Log(GetType().Name, "inne rozmiary to źle", "WRONG");
+                GetType().Name.Log("inne rozmiary to źle", "WRONG");
             }
             return this;
         }
@@ -82,7 +83,7 @@ namespace StoreQADemoTesting.Pages.Checkout
         public CheckoutPage ContinueClick()
         {
             ClickElement(ElementContinue);
-            Log(GetType().Name, "Click Continue after check order", "True");
+            GetType().Name.Log("Click Continue after check order", "True");
             return this;
         }
 

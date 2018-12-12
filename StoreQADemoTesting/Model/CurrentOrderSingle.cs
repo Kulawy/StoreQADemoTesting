@@ -9,13 +9,13 @@ namespace StoreQADemoTesting.Model
     public sealed class CurrentOrderSingle
     {
         private static CurrentOrderSingle _oInstance = null;
-        private readonly int _nCouter = 0;
+        //private readonly int _nCouter = 0;
 
         public Order CurrentOrder { get; set; }
 
         private CurrentOrderSingle()
         {
-            _nCouter = 1;
+            //_nCouter = 1;
             CurrentOrder = new Order();
         }
 

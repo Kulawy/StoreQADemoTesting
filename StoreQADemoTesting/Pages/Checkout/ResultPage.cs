@@ -1,8 +1,8 @@
-﻿using Deveel.Math;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using StoreQADemoTesting.Model;
+using StoreQADemoTesting.MyClassExtensions;
 using StoreQADemoTesting.Utilities;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,6 @@ namespace StoreQADemoTesting.Pages.Checkout
             List<IWebElement> elementListOfProducts_asList = new List<IWebElement>(ElementListofProducts);
             WaitForElements(elementListOfProducts_asList);
             rnd = new Random();
-            converter = new MyConverter();
         }
 
         [FindsBy(How = How.CssSelector, Using = "tbody tr")] // O CO KAMAN!!!
@@ -37,16 +36,16 @@ namespace StoreQADemoTesting.Pages.Checkout
             for (int i = 0; i < ElementListofProducts.Count; i++)
             {
                 String expectedName = _single.CurrentOrder.GetProd(i).GetName();
-                BigDecimal expectedPrice = _single.CurrentOrder.GetProd(i).GetPrice();
+                decimal expectedPrice = _single.CurrentOrder.GetProd(i).GetPrice();
                 //BigDecimal expectedPrice2 = converter.FormPriceToBigDecimal(_single.CurrentOrder.GetProd(i).GetPrice()); ;
                 //expectedPrice = expectedPrice.SetScale(2, RoundingMode.HalfUp);
-                BigDecimal expectedTotalPrice = _single.CurrentOrder.GetProd(i).GetTotalProductPrice();
+                decimal expectedTotalPrice = _single.CurrentOrder.GetProd(i).GetTotalProductPrice();
                 //BigDecimal expectedTotalPrice = new BigDecimal(_single.CurrentOrder.GetProd(i).GetTotalProductPrice(), 2);
                 //expectedTotalPrice = expectedTotalPrice.SetScale(2, RoundingMode.HalfUp);
 
                 int expectedAmount = _single.CurrentOrder.GetProd(i).GetQuantity();
 
-                Assert.AreEqual(converter.ParseStringToComparableValue(expectedName), GetName(i));
+                Assert.AreEqual(expectedName.ParseStringToComparableValue(), GetName(i));
                 Assert.AreEqual(expectedPrice, GetPrice(i));
                 Assert.AreEqual(expectedTotalPrice, GetTotalPrice(i));
                 Assert.AreEqual(expectedAmount, GetAmount(i));
@@ -56,7 +55,8 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         public ResultPage VerifyTotalOrderWithShipment()
         {
-            Assert.IsTrue(ElementTotals.Text.Replace(",", "").Contains(_single.CurrentOrder.GetTotalOrderPrice().ToString()));
+            GetType().Name.Log("Values: ", ElementTotals.Text.Replace(",", "") + " / " + _single.CurrentOrder.GetTotalOrderPrice().ToString());
+            Assert.IsTrue(ElementTotals.Text.Replace(",", "").Contains(_single.CurrentOrder.GetTotalOrderPrice().ToString().Replace(",",".")));
             return this;
         }
 
@@ -68,23 +68,25 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         private String GetName(int i)
         {
-            return converter.ParseStringToComparableValue(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(1)")).Text);
+            string name = ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(1)")).Text;
+            return name.ParseStringToComparableValue();
         }
 
-        private BigDecimal GetPrice(int i)
+        private decimal GetPrice(int i)
         {
-            return converter.FormPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(2)")).Text);
+            string price = ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(2)")).Text;
+            return price.FormPriceToBigDecimal();
         }
 
-        private BigDecimal GetTotalPrice(int i)
+        private decimal GetTotalPrice(int i)
         {
-            return converter.FormPriceToBigDecimal(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(4)")).Text);
+            string totalPrice = ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(4)")).Text;
+            return totalPrice.FormPriceToBigDecimal();
         }
 
         private int GetAmount(int i)
         {
             return Int32.Parse(ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(3)")).Text);
-
         }
 
     }

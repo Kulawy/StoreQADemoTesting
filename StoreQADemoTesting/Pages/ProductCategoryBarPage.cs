@@ -12,7 +12,6 @@ namespace StoreQADemoTesting.Pages
     {
 
         private List<IWebElement> elementsList;
-        private Random rnd;
         public String choosenElementText;
 
         public ProductCategoryBarPage(IWebDriver driver) : base(driver)

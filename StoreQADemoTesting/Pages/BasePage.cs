@@ -21,7 +21,6 @@ namespace StoreQADemoTesting.Pages
         protected Actions _actionsBuilder;
         protected CurrentOrderSingle _single;
         protected Random rnd;
-        protected MyConverter converter;
         private WebDriverWait wait;
 
         public BasePage(IWebDriver driver)
@@ -32,17 +31,10 @@ namespace StoreQADemoTesting.Pages
         }
 
         // to nie jest nigdzie używane :D jest w zapasie :D taki As z rękawa jak już waity nie podziałają
+        //wrzucic do clasy WebDriverExtension  (jako metoda rozszerzajaca)
         protected void WaitWhile(int timeWaiting)
         {
-            try
-            {
-                Thread.Sleep(timeWaiting);
-            }
-            catch (ThreadInterruptedException e)
-            {
-                Console.WriteLine(e.ToString());
-                //Console.WriteLine(System.Environment.StackTrace);
-            }
+            Thread.Sleep(timeWaiting);
         }
 
         protected void WaitUntilClickable(IWebElement element)
@@ -52,22 +44,17 @@ namespace StoreQADemoTesting.Pages
 
         protected void WaitForElements(List<IWebElement> elements)
         {
-            //wait.Until(ExpectedConditions.ElementIsVisible(elements));
-
             wait.Until(x =>
             {
                 foreach (IWebElement elem in elements)
                 {
-                    if (! elem.Displayed)
+                    if (!elem.Displayed)
                     {
                         return false;
                     }
                 }
                 return true;
             });
-
-            //wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(elements.AsReadOnly()));
-
         }
 
         private bool IsElementVisible(IWebElement element)
@@ -83,9 +70,6 @@ namespace StoreQADemoTesting.Pages
 
         protected void WaitForElement(IWebElement element)
         {
-            //IWebElement elem = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("")));
-            //wait.Until(ExpectedConditions.ElementIsVisible(element));
-            //wait.Until(ExpectedConditions.ElementIsVisible(By.Equals(element)));
             wait.Until(x => element.Displayed);
         }
 
@@ -94,10 +78,7 @@ namespace StoreQADemoTesting.Pages
             wait.Until(ExpectedConditions.TextToBePresentInElement(element, text));
         }
 
-        protected static void Log(String where, String description, String value)
-        {
-            Console.WriteLine("Log :" + where + " - " + description + " - " + value);
-        }
+        
 
     }
 }

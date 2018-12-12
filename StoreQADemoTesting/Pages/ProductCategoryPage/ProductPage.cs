@@ -1,8 +1,8 @@
-﻿using Deveel.Math;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using StoreQADemoTesting.Model;
+using StoreQADemoTesting.MyClassExtensions;
 using StoreQADemoTesting.Utilities;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,6 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
             elementsList = new List<IWebElement> { ElementTitle, ElementAddToCart };
             WaitForElements(elementsList);
             rnd = new Random();
-            converter = new MyConverter();
         }
 
         [FindsBy(How = How.ClassName, Using = "prodtitle")]
@@ -75,26 +74,26 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         {
             ClickElement(ElementAddToCart);
             WaitForElement(ElementAlertAdd);
-            Log(GetType().Name, "(BEFORE) count on screen:   ", _bar.GetCount().ToString());
-            Log(GetType().Name, "(BEFORE) totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
+            GetType().Name.Log("(BEFORE) count on screen:   ", _bar.GetCount().ToString());
+            GetType().Name.Log( "(BEFORE) totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
             WaitForCountToChange(_bar.GetElementCount(), _single.CurrentOrder.GetAmount().ToString());
-            Log(GetType().Name, "(AFTER)  count on screen:   ", _bar.GetCount().ToString());
-            Log(GetType().Name, "(AFTER)  totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
+            GetType().Name.Log( "(AFTER)  count on screen:   ", _bar.GetCount().ToString());
+            GetType().Name.Log( "(AFTER)  totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
         }
 
         private String ParseStringToComparableValue(String inputString)
         {
-            string outString = converter.ParseStringToComparableValue(inputString);
-            Log(GetType().Name, " Porduct Name", outString);
+            string outString = inputString.ParseStringToComparableValue();
+            GetType().Name.Log( "Porduct Name", outString);
             return outString;
         }
 
         private void AddProduct()
         {
             Console.WriteLine(ElementCurrentPrice.Text.Substring(1).Replace(",", ""));
-            Product newProd = new Product(ElementTitle.Text, new BigDecimal(double.Parse(ElementCurrentPrice.Text.Substring(1).Replace(",", ""), System.Globalization.CultureInfo.InvariantCulture)));
+            Product newProd = new Product(ElementTitle.Text, decimal.Parse(ElementCurrentPrice.Text.Substring(1).Replace(",", ""), System.Globalization.CultureInfo.InvariantCulture));
             _single.CurrentOrder.AddProduct(newProd);
-            Log(GetType().Name, "Product add: ", newProd.ToString());
+            GetType().Name.Log("Product add: ", newProd.ToString());
         }
     }
 }

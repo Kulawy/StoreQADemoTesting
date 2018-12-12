@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using StoreQADemoTesting.Model;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +20,22 @@ namespace StoreQADemoTesting.Utilities
 
         public User CreateRandomUser(List<IWebElement> CountryList)
         {
-            String firstName = RandomfillFirstName();
-            String lastName = RandomfillLastName();
-            String address = RandomfillAddress();
-            String city = RandomfillCity();
-            String state = RandomfillState();
-            String country = RandomFillCountry(CountryList);
-            String postalCode = RandomFillPostalCode();
-            String phone = RandomFillPhone();
 
-            return new User(firstName, lastName, address, city, state, country, postalCode, phone);
+            User user =  new User()
+            {
+                FirstName = "Firstname" + "".RandomStringOfLength5(),
+                LastName = "Lastname" + "".RandomStringOfLength5(),
+                Address = "Some" + "".RandomStringOfLength5() + " Street " + rnd.Next(200),
+                City = RandomfillCity(),
+                State = RandomfillState(),
+                Country = RandomFillCountry(CountryList),
+                PostalCode = RandomFillPostalCode(),
+                Phone = RandomFillPhone()
+            };
+
+            user.SetEmail();
+            return user;
+            //return new User(firstName, lastName, address, city, state, country, postalCode, phone);
         }
 
         private String RandomFillCountry(List<IWebElement> countryList)
@@ -36,21 +43,6 @@ namespace StoreQADemoTesting.Utilities
             int i = rnd.Next(countryList.Count);
             IWebElement countryElement = countryList[i];
             return countryElement.Text;
-        }
-
-        private String RandomfillFirstName()
-        {
-            return "Firstname" + RandomStringOfLength5();
-        }
-
-        private String RandomfillLastName()
-        {
-            return "Lastname" + RandomStringOfLength5();
-        }
-
-        private String RandomfillAddress()
-        {
-            return "Some" + RandomStringOfLength5() + " Street " + rnd.Next(200);
         }
 
         private String RandomfillCity()
@@ -73,13 +65,6 @@ namespace StoreQADemoTesting.Utilities
             return (rnd.Next(899) + 100).ToString() + " " + (rnd.Next(899) + 100).ToString() + " " + (rnd.Next(899) + 100).ToString();
         }
 
-        private String RandomStringOfLength5()
-        {
-            rnd = new Random();
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return new string(Enumerable.Repeat(chars, 5)
-              .Select(s => s[rnd.Next(s.Length)]).ToArray());
-            
-        }
+
     }
 }

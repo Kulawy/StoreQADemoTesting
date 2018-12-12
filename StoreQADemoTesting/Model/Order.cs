@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Deveel.Math;
 
 namespace StoreQADemoTesting.Model
 {
     public class Order
     {
         private List<Product> orderList;
-        private BigDecimal shippingPirce;
+        private decimal shippingPirce;
 
         public Order()
         {
@@ -64,23 +63,23 @@ namespace StoreQADemoTesting.Model
             return orderList[i];
         }
 
-        public BigDecimal GetShippingPrice()
+        public decimal GetShippingPrice()
         {
             return shippingPirce;
         }
 
-        public BigDecimal GetTotalOrderPrice()
+        public decimal GetTotalOrderPrice()
         {
-            BigDecimal result = new BigDecimal(0);
+            decimal result = new decimal(0);
             foreach (Product p in orderList)
             {
-                result += p.GetPrice() * (new BigDecimal(p.GetQuantity()));
+                result += p.GetPrice() * (new decimal(p.GetQuantity()));
                 //result.Add(p.GetPrice().Multiply(new BigDecimal(p.GetQuantity())));
             }
             return result;
         }
 
-        public void SetShippingPirce(BigDecimal shippingPirce)
+        public void SetShippingPirce(decimal shippingPirce)
         {
             this.shippingPirce = shippingPirce;
         }

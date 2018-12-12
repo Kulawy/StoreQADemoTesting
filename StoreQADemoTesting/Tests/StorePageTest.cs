@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace StoreQADemoTesting.Pages.Tests
 {
     [TestFixture()]
-    public class StorePageTest : BasePageTest
+    public class StorePageTest : BaseTest
     {
 
         private ProductCategoryBarPage prodCatPage;

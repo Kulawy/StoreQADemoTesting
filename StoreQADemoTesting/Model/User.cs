@@ -18,17 +18,27 @@ namespace StoreQADemoTesting.Model
         public String Phone { get; set; }
         public String Email { get; set; }
 
+        public User()
+        {
+
+        }
+
         public User(String firstName, String lastName, String address, String city, String state, String country, String postalCode, String phone)
         {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Address = address;
-            this.City = city;
-            this.State = state;
-            this.Country = country;
-            this.PostalCode = postalCode;
-            this.Phone = phone;
-            this.Email = this.FirstName.Substring(0, 1) + "." + this.LastName + "@gmail.com";
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            City = city;
+            State = state;
+            Country = country;
+            PostalCode = postalCode;
+            Phone = phone;
+            Email = this.FirstName.Substring(0, 1) + "." + this.LastName + "@gmail.com";
+        }
+
+        public void SetEmail()
+        {
+            Email = FirstName.Substring(0, 1) + "." + LastName + "@gmail.com";
         }
 
         public override String ToString()

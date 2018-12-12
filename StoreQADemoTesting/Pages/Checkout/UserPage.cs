@@ -1,13 +1,10 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using StoreQADemoTesting.Model;
-using StoreQADemoTesting.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
+using StoreQADemoTesting.MyClassExtensions;
 
 namespace StoreQADemoTesting.Pages.Checkout
 {
@@ -19,17 +16,13 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         private User u;
 
-        //public UserPage(IWebDriver driver, MainMenuBarPage mainMenuBar) : base(driver)
         public UserPage(IWebDriver driver) : base(driver)
         {
-            //_bar = mainMenuBar;
-            //_single = CurrentOrderSingle.Instance;
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementSameBilling, ElementFirstName, ElementLastName, ElementAddress };
             WaitForElements(elementsList);
             rnd = new Random();
             SetUserCountry();
-            converter = new MyConverter();
         }
 
         [FindsBy(How = How.Id, Using = "shippingSameBilling")]
@@ -102,7 +95,7 @@ namespace StoreQADemoTesting.Pages.Checkout
             SendKeysToElement(ElementPhone, u.Phone);
             SetCountry(ElementShippingSelectCountry, u.Country);
             SendKeysToElement(ElementShippingState, u.State);
-            Log(GetType().Name, " User Added: ", u.ToString());
+            GetType().Name.Log( "User Added: ", u.ToString());
             return this;
         }
 
@@ -136,12 +129,12 @@ namespace StoreQADemoTesting.Pages.Checkout
             if (_driver.Url == "http://store.demoqa.com/products-page/checkout/")
             {
                 WaitForElement(ElementShippingPrice);
-                _single.CurrentOrder.SetShippingPirce(converter.FormPriceToBigDecimal(ElementShippingPrice.Text));
+                _single.CurrentOrder.SetShippingPirce(ElementShippingPrice.Text.FormPriceToBigDecimal());
                 ClickElement(ElementPurchase);
             }
             else
             {
-                _single.CurrentOrder.SetShippingPirce(converter.FormPriceToBigDecimal("0"));
+                _single.CurrentOrder.SetShippingPirce("0".FormPriceToBigDecimal());
             }
             return this;
         }
@@ -149,8 +142,6 @@ namespace StoreQADemoTesting.Pages.Checkout
         public String GetCountryFromPage()
         {
             var countrySelect = new SelectElement(ElementSelectCountry);
-            //IList<IWebElement> countrySelectIList = countrySelect.Options;
-            //List<IWebElement> countrySelectOptions = elementCount as List<IWebElement>;
             return countrySelect.SelectedOption.Text;
         }
 

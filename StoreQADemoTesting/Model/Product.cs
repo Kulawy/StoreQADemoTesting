@@ -1,9 +1,4 @@
-﻿using Deveel.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace StoreQADemoTesting.Model
 {
@@ -11,9 +6,9 @@ namespace StoreQADemoTesting.Model
     {
         public String name;
         public int Quantity { get; set; }
-        public BigDecimal Price { get; }
+        public decimal Price { get; }
 
-        public Product(String name, BigDecimal price)
+        public Product(String name, decimal price)
         {
             this.name = name;
             this.Price = price;
@@ -34,14 +29,14 @@ namespace StoreQADemoTesting.Model
             return Quantity;
         }
 
-        public BigDecimal GetPrice()
+        public decimal GetPrice()
         {
             return Price;
         }
 
-        public BigDecimal GetTotalProductPrice()
+        public decimal GetTotalProductPrice()
         {
-            return Price * new BigDecimal(Quantity);
+            return Price * new Decimal(Quantity);
         }
 
         
@@ -54,8 +49,13 @@ namespace StoreQADemoTesting.Model
                 return false;
         }
 
-        
-    public override String ToString()
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+
+        public override String ToString()
         {
             return name + " " + Price + " quantity: " + Quantity;
         }

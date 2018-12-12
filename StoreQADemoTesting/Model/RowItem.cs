@@ -1,5 +1,4 @@
-﻿using Deveel.Math;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +11,8 @@ namespace StoreQADemoTesting.Model
     {
         public String Name { get; set; }
         public int Quantity { get; set; }
-        public BigDecimal Price { get; set; }
-        public BigDecimal PriceTotal { get; set; }
+        public decimal Price { get; set; }
+        public decimal PriceTotal { get; set; }
 
         public RowItem(IWebElement tr)
         {
@@ -23,9 +22,8 @@ namespace StoreQADemoTesting.Model
             IWebElement form = columnsTD[2];
             IWebElement quantityInput = form.FindElement(By.Name("quantity"));
             this.Quantity = Int32.Parse(quantityInput.GetAttribute("value"));
-            this.Price = new BigDecimal(Double.Parse(columnsTD[3].Text.Replace("$", "")));
-            this.PriceTotal = new BigDecimal(Double.Parse(columnsTD[4].Text.Replace("$", "").Replace(",", "")));
-
+            this.Price = decimal.Parse(columnsTD[3].Text.Replace("$", ""));
+            this.PriceTotal = decimal.Parse(columnsTD[4].Text.Replace("$", "").Replace(",", ""));
         }
 
         public override String ToString()
