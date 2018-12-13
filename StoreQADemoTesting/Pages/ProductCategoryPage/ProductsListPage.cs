@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
             //_bar = mainMenuBar;
             //_bar = new MainMenuBarPage(_driver);
             PageFactory.InitElements(_driver, this);
-            WaitForElement(ElementTitle);
+            _driver.WaitForElement(ElementTitle);
             elementsPorductsList = new List<IWebElement>(ElementsPorductsList);
-            WaitForElements(elementsPorductsList);
+            _driver.WaitForElements(elementsPorductsList);
             rnd = new Random();
 
         }

@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Interactions;
 using SeleniumExtras.PageObjects;
 using StoreQADemoTesting.Model;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,14 @@ namespace StoreQADemoTesting.Pages
 {
     public class MainMenuBarPage : WebElementManipulator
     {
-        //public Order CurrentOrder { get; set; }
 
         public MainMenuBarPage(IWebDriver driver) : base(driver)
         {
             PageFactory.InitElements(_driver, this);
             _actionsBuilder = new Actions(_driver);
             List<IWebElement> elements = new List<IWebElement>() { elementAllProd, elementCheckout, elementHome, elementNoTitle, elementProdCat };
-            WaitForElements(elements);
-            //CurrentOrder = new Order();
+            _driver.WaitForElements(elements);
         }
-
-        //StaleElementReferenceException 
 
         [FindsBy(How = How.Id, Using = "menu-item-15")]
         private IWebElement elementHome { get; set; }
@@ -41,9 +38,8 @@ namespace StoreQADemoTesting.Pages
 
         public MainMenuBarPage HoverProductCategory()
         {
-            WaitForElement(elementProdCat);
+            _driver.WaitForElement(elementProdCat);
             _actionsBuilder.MoveToElement(elementProdCat).Build().Perform();
-            //_actionsBuilder.Build().Perform();
             return this;
         }
 
@@ -86,9 +82,7 @@ namespace StoreQADemoTesting.Pages
         public int GetCount()
         {
             String value = elementCount.Text.Replace(" ", "");
-            //System.out.println(this.getClass().getName() + " count value: "+ value);
             return Int32.Parse(value);
-            //return Integer.parseInt(elementCount.getText().trim());
         }
     }
 }

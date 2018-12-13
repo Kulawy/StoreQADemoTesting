@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 
 namespace StoreQADemoTesting.Model
 {
-    public sealed class CurrentOrderSingle
+    public sealed class CurrentOrderHolderSingleton
     {
-        private static CurrentOrderSingle _oInstance = null;
+        private static CurrentOrderHolderSingleton _oInstance = null;
         //private readonly int _nCouter = 0;
 
         public Order CurrentOrder { get; set; }
 
-        private CurrentOrderSingle()
+        private CurrentOrderHolderSingleton()
         {
             //_nCouter = 1;
             CurrentOrder = new Order();
         }
 
-        public static CurrentOrderSingle Instance
+        public static CurrentOrderHolderSingleton Instance
         {
             get
             {
                 if ( _oInstance == null)
                 {
-                    _oInstance = new CurrentOrderSingle();
+                    _oInstance = new CurrentOrderHolderSingleton();
                 }
                 return _oInstance;
             }

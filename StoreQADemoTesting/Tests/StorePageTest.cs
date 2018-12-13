@@ -25,13 +25,12 @@ namespace StoreQADemoTesting.Pages.Tests
         private ResultPage resultPage;
         private UserFactory factory;
         private User user;
-        private CurrentOrderSingle _single;
+        private CurrentOrderHolderSingleton _single;
 
         [SetUp()]
         public void SetUpStore()
         {
-            //_bar = new MainMenuBarPage(_driver);
-            _single = CurrentOrderSingle.Instance;
+            _single = CurrentOrderHolderSingleton.Instance;
             
         }
 

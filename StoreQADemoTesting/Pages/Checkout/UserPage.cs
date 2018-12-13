@@ -20,7 +20,7 @@ namespace StoreQADemoTesting.Pages.Checkout
         {
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementSameBilling, ElementFirstName, ElementLastName, ElementAddress };
-            WaitForElements(elementsList);
+            _driver.WaitForElements(elementsList);
             rnd = new Random();
             SetUserCountry();
         }
@@ -128,13 +128,13 @@ namespace StoreQADemoTesting.Pages.Checkout
         {
             if (_driver.Url == "http://store.demoqa.com/products-page/checkout/")
             {
-                WaitForElement(ElementShippingPrice);
-                _single.CurrentOrder.SetShippingPirce(ElementShippingPrice.Text.FormPriceToBigDecimal());
+                _driver.WaitForElement(ElementShippingPrice);
+                _single.CurrentOrder.SetShippingPirce(ElementShippingPrice.Text.FormPriceToDecimal());
                 ClickElement(ElementPurchase);
             }
             else
             {
-                _single.CurrentOrder.SetShippingPirce("0".FormPriceToBigDecimal());
+                _single.CurrentOrder.SetShippingPirce("0".FormPriceToDecimal());
             }
             return this;
         }

@@ -21,12 +21,12 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         {
             //_bar = mainMenuBar;
             _bar = new MainMenuBarPage(_driver);
-            _single = CurrentOrderSingle.Instance;
+            _single = CurrentOrderHolderSingleton.Instance;
             //#pragma warning disable CS0618 // Type or member is obsolete
             PageFactory.InitElements(_driver, this);
             //#pragma warning restore CS0618 // Type or member is obsolete
             elementsList = new List<IWebElement> { ElementTitle, ElementAddToCart };
-            WaitForElements(elementsList);
+            _driver.WaitForElements(elementsList);
             rnd = new Random();
         }
 
@@ -73,10 +73,10 @@ namespace StoreQADemoTesting.Pages.ProductCategoryPage
         private void AddToCart()
         {
             ClickElement(ElementAddToCart);
-            WaitForElement(ElementAlertAdd);
+            _driver.WaitForElement(ElementAlertAdd);
             GetType().Name.Log("(BEFORE) count on screen:   ", _bar.GetCount().ToString());
             GetType().Name.Log( "(BEFORE) totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
-            WaitForCountToChange(_bar.GetElementCount(), _single.CurrentOrder.GetAmount().ToString());
+            _driver.WaitForCountToChange(_bar.GetElementCount(), _single.CurrentOrder.GetAmount().ToString());
             GetType().Name.Log( "(AFTER)  count on screen:   ", _bar.GetCount().ToString());
             GetType().Name.Log( "(AFTER)  totalCountOfProd:  ", _single.CurrentOrder.GetAmount().ToString());
         }

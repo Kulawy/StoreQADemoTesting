@@ -21,21 +21,18 @@ namespace StoreQADemoTesting.Utilities
         public User CreateRandomUser(List<IWebElement> CountryList)
         {
 
-            User user =  new User()
+            User user = new User()
             {
-                FirstName = "Firstname" + "".RandomStringOfLength5(),
-                LastName = "Lastname" + "".RandomStringOfLength5(),
-                Address = "Some" + "".RandomStringOfLength5() + " Street " + rnd.Next(200),
+                FirstName = "Firstname" + StringGenerator.GetRandomString(5),
+                LastName = "Lastname" + StringGenerator.GetRandomString(5),
+                Address = "Some" + StringGenerator.GetRandomString(5) + " Street " + rnd.Next(200),
                 City = RandomfillCity(),
                 State = RandomfillState(),
                 Country = RandomFillCountry(CountryList),
                 PostalCode = RandomFillPostalCode(),
                 Phone = RandomFillPhone()
             };
-
-            user.SetEmail();
             return user;
-            //return new User(firstName, lastName, address, city, state, country, postalCode, phone);
         }
 
         private String RandomFillCountry(List<IWebElement> countryList)

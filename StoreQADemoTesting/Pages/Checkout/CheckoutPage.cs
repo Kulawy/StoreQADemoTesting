@@ -21,12 +21,12 @@ namespace StoreQADemoTesting.Pages.Checkout
         public CheckoutPage(IWebDriver driver) : base(driver)
         {
             _bar = new MainMenuBarPage(driver);
-            _single = CurrentOrderSingle.Instance;
+            _single = CurrentOrderHolderSingleton.Instance;
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementContinue };
-            WaitForElements(elementsList);
+            _driver.WaitForElements(elementsList);
             List<IWebElement> elementsRowList_asList = new List<IWebElement>(ElementsRowList);
-            WaitForElements(elementsRowList_asList);
+            _driver.WaitForElements(elementsRowList_asList);
             rnd = new Random();
         }
 

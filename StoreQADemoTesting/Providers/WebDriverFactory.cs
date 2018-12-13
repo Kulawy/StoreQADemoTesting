@@ -26,7 +26,9 @@ namespace StoreQADemoTesting.Utilities.WebDriverUtilities
             try
             {
                 PropertiesFilesReader propFR = new PropertiesFilesReader();
-                browserName = propFR.GetBrowser();
+                //browserName = propFR.GetBrowser();
+                browserName = propFR.Browser;
+                //tutaj od razu parsować stringa na enuma i bez case sensitive
                 driverUrl = propFR.GetUrl();
 
             }
@@ -37,6 +39,7 @@ namespace StoreQADemoTesting.Utilities.WebDriverUtilities
 
         }
 
+        //TODO zrobić enuma 
         public IWebDriver GetDriver() //throws MalformedURLException
         {
             switch (browserName)

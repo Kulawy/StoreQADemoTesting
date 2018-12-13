@@ -19,17 +19,17 @@ namespace StoreQADemoTesting.Pages.Checkout
         public ResultPage(IWebDriver driver) : base(driver)
         {
             _bar = new MainMenuBarPage(_driver);
-            _single = CurrentOrderSingle.Instance;
+            _single = CurrentOrderHolderSingleton.Instance;
             PageFactory.InitElements(_driver, this);
             List<IWebElement> elementListOfProducts_asList = new List<IWebElement>(ElementListofProducts);
-            WaitForElements(elementListOfProducts_asList);
+            _driver.WaitForElements(elementListOfProducts_asList);
             rnd = new Random();
         }
 
-        [FindsBy(How = How.CssSelector, Using = "tbody tr")] // O CO KAMAN!!!
+        [FindsBy(How = How.CssSelector, Using = "tbody tr")] 
         private IList<IWebElement> ElementListofProducts { get; set; }
-        [FindsBy(How = How.XPath, Using = "//p[contains( text(), 'Total')]")]
-        private IWebElement ElementTotals;
+        [FindsBy(How = How.XPath, Using = "//p[contains( text(), 'Total')]")] 
+        private IWebElement ElementTotals; //DLACZEGO NULL ? 
 
         public ResultPage VerifyOrder()
         {
@@ -62,7 +62,7 @@ namespace StoreQADemoTesting.Pages.Checkout
 
         public ResultPage VerifyShipment()
         {
-            Assert.IsTrue(ElementTotals.Text.Replace(",", "").Contains(_single.CurrentOrder.GetShippingPrice().ToString()));
+            Assert.IsTrue(ElementTotals.Text.Replace(",", "").Contains(_single.CurrentOrder.GetShippingPrice().ToString().Replace(",",".")));
             return this;
         }
 
@@ -75,13 +75,13 @@ namespace StoreQADemoTesting.Pages.Checkout
         private decimal GetPrice(int i)
         {
             string price = ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(2)")).Text;
-            return price.FormPriceToBigDecimal();
+            return price.FormPriceToDecimal();
         }
 
         private decimal GetTotalPrice(int i)
         {
             string totalPrice = ElementListofProducts[i].FindElement(By.CssSelector("td:nth-child(4)")).Text;
-            return totalPrice.FormPriceToBigDecimal();
+            return totalPrice.FormPriceToDecimal();
         }
 
         private int GetAmount(int i)

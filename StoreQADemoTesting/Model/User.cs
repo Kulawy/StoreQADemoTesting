@@ -16,7 +16,7 @@ namespace StoreQADemoTesting.Model
         public String Country { get; set; }
         public String PostalCode { get; set; }
         public String Phone { get; set; }
-        public String Email { get; set; }
+        public String Email => FirstName.Substring(0, 1) + "." + LastName + "@gmail.com";
 
         public User()
         {
@@ -33,13 +33,9 @@ namespace StoreQADemoTesting.Model
             Country = country;
             PostalCode = postalCode;
             Phone = phone;
-            Email = this.FirstName.Substring(0, 1) + "." + this.LastName + "@gmail.com";
+            //Email = this.FirstName.Substring(0, 1) + "." + this.LastName + "@gmail.com";
         }
-
-        public void SetEmail()
-        {
-            Email = FirstName.Substring(0, 1) + "." + LastName + "@gmail.com";
-        }
+        
 
         public override String ToString()
         {

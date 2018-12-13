@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace StoreQADemoTesting.Pages
         {
             PageFactory.InitElements(_driver, this);
             elementsList = new List<IWebElement> { ElementAccessories, ElementIMacs, ElementIPads, ElementIPhones, ElementIPods, ElementMacBooks };
-            WaitForElements(elementsList);
+            _driver.WaitForElements(elementsList);
             rnd = new Random();
         }
 

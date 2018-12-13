@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using StoreQADemoTesting.MyClassExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,19 @@ namespace StoreQADemoTesting.Pages
     {
         public WebElementManipulator(IWebDriver driver): base(driver)
         {
-
         }
 
 
         public IWebElement ClickElement(IWebElement element)
         {
-            WaitUntilClickable(element);
+            _driver.WaitUntilClickable(element);
             element.Click();
             return element;
         }
 
         public IWebElement SendKeysToElement(IWebElement element, String value)
         {
-            WaitUntilClickable(element);
+            _driver.WaitUntilClickable(element);
             element.SendKeys(value);
             return element;
         }
