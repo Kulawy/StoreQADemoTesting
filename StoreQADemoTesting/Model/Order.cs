@@ -74,7 +74,7 @@ namespace StoreQADemoTesting.Model
             foreach (Product p in orderList)
             {
                 result += p.GetPrice() * (new decimal(p.GetQuantity()));
-                //result.Add(p.GetPrice().Multiply(new BigDecimal(p.GetQuantity())));
+                //result.Add(p.GetPrice().Multiply(new BigDecimal(p.GetQuantity()))); kod z javy dla porównania, przeciazzanie operatorow rules
             }
             return result;
         }

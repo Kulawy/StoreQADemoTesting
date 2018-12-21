@@ -18,7 +18,7 @@ namespace StoreQADemoTesting.Model
         {
             List<IWebElement> columnsTD = new List<IWebElement>(tr.FindElements(By.CssSelector("td"))); 
             this.Name = columnsTD[1].Text;
-            //this.quantity = columnsTD.get(1).getText();
+            //this.quantity = columnsTD.get(1).getText(); co to kurna jest ?? 
             IWebElement form = columnsTD[2];
             IWebElement quantityInput = form.FindElement(By.Name("quantity"));
             this.Quantity = Int32.Parse(quantityInput.GetAttribute("value"));
